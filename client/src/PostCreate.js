@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const PostCreate = () => {
-  const [title, setTitle] = useState('');
-
+  // State: title
+  // Function: setTitle
+  const [title, setTitle] = useState('');               // "hook"
+  // async fn = http request
   const onSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault();                             // default: form submissions reload the page
 
     await axios.post('http://localhost:4000/posts', {
       title,
     });
 
-    setTitle('');
+    setTitle('');                                       // reset
   };
 
   return (
@@ -21,7 +23,7 @@ const PostCreate = () => {
           <label>Title: {title}</label>
           <input
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}  // {event handler}
             className="form-control"
           />
         </div>

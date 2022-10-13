@@ -1,3 +1,6 @@
+/**
+ * Create a post. List all posts.
+ */
 import express from 'express';
 import logger from 'morgan';
 import { randomBytes } from 'crypto';
@@ -6,28 +9,42 @@ import axios from 'axios';
 
 const app = express();
 
+// Middleware
 app.use(logger('dev'));
-app.use(express.json());
+app.use(express.json());            // parses HTTP req body into JSON object
 app.use(cors());
 
-const posts = {};
+const posts = {};                   // in-memory database
 
+// intercepts GET requests
+// endpoint '/posts' is going to return all posts
 app.get('/posts', (req, res) => {
   res.send(posts);
 });
 
+// add a new post
+// every post & comment needs a unique ID
 app.post('/posts', async (req, res) => {
   const id = randomBytes(4).toString('hex');
   const { title } = req.body;
-
+  if (title === undefined) {
+    res.status(400).json({
+      message: "Missing title"
+    });
+    return;
+  }
   posts[id] = {
     id,
     title,
   };
 
+  // Send post req to event bus with type and data {}
   await axios.post('http://localhost:4005/events', {
-    type: 'PostCreated',
-    data: {
+    // TODO: make 'PostCreated' an object instead of a string
+    // put in another .js file
+    // define smth in there that represents a postcreated type and import it
+    type: 'PostCreated',                    
+    data: { 
       id,
       title,
     },
