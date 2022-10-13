@@ -20,7 +20,7 @@ app.get('/posts/:id/comments', (req, res) => {
   res.send(commentsByPostId[req.params.id] || []);
 });
 
-// adding a comment to post of given ID
+// Adding a comment to post of given ID
 app.post('/posts/:id/comments', async (req, res) => {
   const id = randomBytes(4).toString('hex');
   const { content } = req.body;

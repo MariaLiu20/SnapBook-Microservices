@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from 'axios';                // used to communicate to a back-end service
 
 const PostCreate = () => {
   // State: title
   // Function: setTitle
   const [title, setTitle] = useState('');               // "hook"
-  // async fn = http request
-  const onSubmit = async (event) => {
+  
+  // To make a post request to an endpoint passing the form data to that endpoint.
+  const onSubmit = async (event) => {                   // async fn = http request
     event.preventDefault();                             // default: form submissions reload the page
 
     await axios.post('http://localhost:4000/posts', {

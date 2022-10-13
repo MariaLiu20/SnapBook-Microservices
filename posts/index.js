@@ -23,7 +23,7 @@ app.get('/posts', (req, res) => {
   res.send(posts);
 });
 
-// add a new post
+// Create a new endpoint '/posts' to receive events
 // every post & comment needs a unique ID
 app.post('/posts', async (req, res) => {
   const id = randomBytes(4).toString('hex');

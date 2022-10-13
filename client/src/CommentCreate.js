@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-// prop - data coming from parent component, which will create CommentCreate compoenent
-// prop = postId
+// prop ({postId}) - data coming from parent component, which will create CommentCreate compoenent
 const CommentCreate = ({ postId }) => {
   const [content, setContent] = useState('');
 

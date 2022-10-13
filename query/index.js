@@ -1,3 +1,6 @@
+/**
+ * Accumulates events
+ */
 import express from 'express';
 import cors from 'cors';
 
@@ -23,18 +26,46 @@ app.post('/events', (req, res) => {
 
   if (type === 'CommentCreated') {
     const { id, content, postId } = data;
+    console.log(postId);
     const post = posts[postId];
-    post.comments.push({ id, content, status: "under_review" });
+    // if postId doesnt exist, post will be undefined
+    if (post === undefined) {
+      console.log("ERROR: CommentCreated")
+      return;
+    }
+    post.comments.push({ id, content, status: "under_review", upvotes: 0, downvotes: 0 });
   }
 
   if (type === 'CommentModerated') {
     const { id, content, postId, status} = data;
     const post = posts[postId];
-    // Loop post.comments for id and set its status to status
+    // TODO: error checking
+    for (let i = 0; i < post.comments.length; i++) {
+      if (post.comments[i].id === id) {
+        post.comments[i].status = status;
+        //console.log(status);
+        break;
+      }
+    }
+    // for (comment of post.comments) {
+    //   console.log(comment);
+    //   if (comment.id === id) {
+    //     comment.status = status;
+    //     console.log(status);
+    //     break;
+    //   }
+    // }
+  }
+
+  if (type === 'CommentVoted') {
+    const {id, vote, postId, commentId} = data;
+    const post = posts[postId];
     for (comment of post.comments) {
-      if (comment.id == id) {
-        comment.status = status;
-        console.log(status);
+      if (comment.id === commentId) {
+        if (vote === 'upvote')
+          comment.upvotes++;
+        else if (vote === 'downvote')
+          comment.downvotes++;
         break;
       }
     }

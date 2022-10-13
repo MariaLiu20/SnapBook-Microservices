@@ -1,3 +1,7 @@
+/**
+ * Internal event broker system
+ * Manages event messages between services.
+ */
 import express from 'express';
 import logger from 'morgan';
 import axios from 'axios';
@@ -18,14 +22,20 @@ app.post('/events', (req, res) => {
   axios.post('http://localhost:4001/events', event).catch((err) => {
     console.log(err.message);
   });
+  
+  axios.post('http://localhost:4003/events', event).catch((err) => {
+    console.log(err.message);
+  });
 
   axios.post('http://localhost:4002/events', event).catch((err) => {
     console.log(err.message);
   });
 
-  axios.post('http://localhost:4003/events', event).catch((err) => {
-    console.log(err.message);
-  });
+
+  // axios.post('http://localhost:4004/events', event).catch((err) => {
+  //   console.log(err.message);
+  // });
+
 });
 
 app.listen(port, () => {

@@ -17,14 +17,13 @@ app.use(logger('dev'));
 app.use(express.json());            // parses HTTP req body into JSON object
 //app.use(cors());
 
-const bannedWords = ['Donald', 'Trump', 'Republican', 'rightist', 'crap'];
-
 // Scan comment
 app.post('/events', async (req, res) => {
     const { type, data } = req.body;
-    let status = "accepted";
-
+    const { id, content, postId } = data;
     if (type == 'CommentCreated') {
+        const bannedWords = ['Donald', 'Trump', 'Republican', 'rightist', 'crap'];
+        let status = "accepted";
         let comment = data.content;
         let words = comment.split(' ');
         words.forEach(word => {
@@ -32,24 +31,30 @@ app.post('/events', async (req, res) => {
                 status = "rejected";
             }
         });
+
+        // Send post req to event bus with type and data {}
+        await axios.post('http://localhost:4005/events', {
+            // TODO: make 'PostCreated' an object instead of a string
+            // put in another .js file
+            // define smth in there that represents a postcreated type and import it
+            type: 'CommentModerated',                    
+            data: { 
+                id,
+                content,
+                postId,
+                status
+            },
+        });
     }
-    // Send post req to event bus with type and data {}
-    await axios.post('http://localhost:4005/events', {
-        // TODO: make 'PostCreated' an object instead of a string
-        // put in another .js file
-        // define smth in there that represents a postcreated type and import it
-        type: 'CommentModerated',                    
-        data: { 
-            id: data.id,
-            content: data.content,
-            postId: data.postId,
-            status
-        },
-    });
 
     res.send({ status: 'OK' });
 });
 
+app.post('/events', (req, res) => {
+    console.log(req.body.type);
+    res.send({});
+  });
+  
 app.listen(port, () => {
-    console.log('Listening on port 4003');
+    console.log('Listening on 4003');
   });
