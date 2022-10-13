@@ -17,7 +17,7 @@ bannedWords = ['Donald', 'Trump', 'Republican', 'rightist', 'crap'];
 app.post('/events', async (req, res) => {
     const { type, data } = req.body;
     let status = "accepted";
-    
+
     if (type == 'CommentCreated') {
         let comment = data.content;
         let words = comment.split(' ');
@@ -34,9 +34,9 @@ app.post('/events', async (req, res) => {
         // define smth in there that represents a postcreated type and import it
         type: 'CommentModerated',                    
         data: { 
-            id,
-            content,
-            postId,
+            id: data.id,
+            content: data.content,
+            postId: data.postId,
             status
         },
     });
