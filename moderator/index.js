@@ -5,15 +5,21 @@
  * extend it with a status property, which indicates if the commentw as accepted or rejected
  */
 import express from 'express';
+import logger from 'morgan';
+//import cors from 'cors';
+import axios from 'axios';
 
 const app = express();
+const port = 4006;
 
 // Middleware
 app.use(logger('dev'));
 app.use(express.json());            // parses HTTP req body into JSON object
+//app.use(cors());
 
-bannedWords = ['Donald', 'Trump', 'Republican', 'rightist', 'crap'];
+const bannedWords = ['Donald', 'Trump', 'Republican', 'rightist', 'crap'];
 
+// Scan comment
 app.post('/events', async (req, res) => {
     const { type, data } = req.body;
     let status = "accepted";
@@ -40,4 +46,10 @@ app.post('/events', async (req, res) => {
             status
         },
     });
+
+    res.send({ status: 'OK' });
 });
+
+app.listen(port, () => {
+    console.log('Listening on port 4006');
+  });

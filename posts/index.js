@@ -8,6 +8,7 @@ import cors from 'cors';
 import axios from 'axios';
 
 const app = express();
+const port = 4000;
 
 // Middleware
 app.use(logger('dev'));
@@ -59,6 +60,6 @@ app.post('/events', (req, res) => {
   res.send({});
 });
 
-app.listen(4000, () => {
+app.listen(port, () => {
   console.log('Listening on port 4000');
 });

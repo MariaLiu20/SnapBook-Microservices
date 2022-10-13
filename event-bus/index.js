@@ -3,6 +3,7 @@ import logger from 'morgan';
 import axios from 'axios';
 
 const app = express();
+const port = 4005;
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -23,6 +24,6 @@ app.post('/events', (req, res) => {
   });
 });
 
-app.listen(4005, () => {
+app.listen(port, () => {
   console.log('Listening on 4005');
 });
