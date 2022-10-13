@@ -10,7 +10,7 @@ import logger from 'morgan';
 import axios from 'axios';
 
 const app = express();
-const port = 4006;
+const port = 4003;
 
 // Middleware
 app.use(logger('dev'));
@@ -51,5 +51,5 @@ app.post('/events', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log('Listening on port 4006');
+    console.log('Listening on port 4003');
   });
