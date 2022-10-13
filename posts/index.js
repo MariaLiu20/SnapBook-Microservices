@@ -53,6 +53,7 @@ app.post('/posts', async (req, res) => {
   res.status(201).send(posts[id]);
 });
 
+// Receives events and prints out event type
 app.post('/events', (req, res) => {
   console.log(req.body.type);
   res.send({});
