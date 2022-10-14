@@ -18,7 +18,13 @@ app.get('/posts', (req, res) => {
 
 app.post('/events', (req, res) => {
   const { type, data } = req.body;
-  // TODO: error checking
+  if (type === undefined || data === undefined) {
+    res.status(400).json({
+      message: "Missing type or data"
+    });
+    return;
+  }
+  
   if (type === 'PostCreated') {
     const { id, title } = data;
     posts[id] = { id, title, comments: [] };
@@ -26,46 +32,44 @@ app.post('/events', (req, res) => {
 
   if (type === 'CommentCreated') {
     const { id, content, postId } = data;
-    console.log(postId);
     const post = posts[postId];
-    // if postId doesnt exist, post will be undefined
     if (post === undefined) {
-      console.log("ERROR: CommentCreated")
+      console.log("CommentCreated ERROR: post does not exist")
       return;
     }
-    post.comments.push({ id, content, status: "under_review", upvotes: 0, downvotes: 0 });
+    post.comments.push({ id, content, status: "under_review", votes: 0 });
   }
 
   if (type === 'CommentModerated') {
     const { id, content, postId, status} = data;
     const post = posts[postId];
-    // TODO: error checking
-    for (let i = 0; i < post.comments.length; i++) {
-      if (post.comments[i].id === id) {
-        post.comments[i].status = status;
-        //console.log(status);
+    if (post === undefined) {
+      console.log("CommentModerated ERROR: post does not exist")
+      return;
+    }
+    for (const comment of post.comments) {
+      if (comment.id === id) {
+        comment.status = status;
         break;
       }
     }
-    // for (comment of post.comments) {
-    //   console.log(comment);
-    //   if (comment.id === id) {
-    //     comment.status = status;
-    //     console.log(status);
-    //     break;
-    //   }
-    // }
   }
 
   if (type === 'CommentVoted') {
     const {id, vote, postId, commentId} = data;
+    console.log(vote);
     const post = posts[postId];
-    for (comment of post.comments) {
+    if (post === undefined) {
+      console.log("CommentVoted ERROR: post does not exist")
+      return;
+    }
+    console.log("COMMENT VOTED");
+    for (const comment of post.comments) {
       if (comment.id === commentId) {
         if (vote === 'upvote')
-          comment.upvotes++;
+          comment.votes++;
         else if (vote === 'downvote')
-          comment.downvotes++;
+          comment.votes--;
         break;
       }
     }

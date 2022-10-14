@@ -17,17 +17,15 @@ app.use(logger('dev'));
 app.use(express.json());            // parses HTTP req body into JSON object
 //app.use(cors());
 
-// Scan comment
 app.post('/events', async (req, res) => {
     const { type, data } = req.body;
-    const { id, content, postId } = data;
     if (type == 'CommentCreated') {
-        const bannedWords = ['Donald', 'Trump', 'Republican', 'rightist', 'crap'];
+        const { id, content, postId } = data;
+        const bannedWords = ['donald', 'trump', 'republican', 'rightist', 'crap'];
         let status = "accepted";
-        let comment = data.content;
-        let words = comment.split(' ');
+        let words = content.split(' ');
         words.forEach(word => {
-            if (bannedWords.includes(word)) {
+            if (bannedWords.includes(word.toLowerCase())) {
                 status = "rejected";
             }
         });
