@@ -7,6 +7,7 @@ import express from 'express';
 import logger from 'morgan';
 import { randomBytes } from 'crypto';
 import axios from 'axios';
+import cors from 'cors';
 
 const app = express();
 const port = 4004;
@@ -14,6 +15,7 @@ const port = 4004;
 // Middleware
 app.use(logger('dev'));
 app.use(express.json());
+app.use(cors());
 
 // Store comment votes
 const votesByCommentId = {};
