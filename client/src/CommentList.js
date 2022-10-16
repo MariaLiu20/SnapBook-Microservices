@@ -22,13 +22,12 @@ const CommentList = ({ comments, postId }) => {
 
     return <div>
       <li key={comment.id}>{comment.content}</li>
-      Status: {comment.status}
-      <br></br>
-      Count: {comment.votes}
-      <form onSubmit={onSubmitUp}>
+      <div>Status: {comment.status}</div>
+      <div>Vote Count: {comment.votes}</div>
+      <form onSubmit={onSubmitUp} style={{float: "left", padding: "5px"}}>
         <button class="btn btn-primary">Like</button>
       </form>
-      <form onSubmit={onSubmitDown}>
+      <form onSubmit={onSubmitDown} style={{float: "left", padding: "5px"}}>
         <button class="btn btn-primary">Dislike</button>
       </form>
     </div>

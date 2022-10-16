@@ -22,7 +22,7 @@ const numVotesByCommentId = {};
 
 // Adding a vote to comment of given ID from post of given ID
 app.post('/posts/:pid/comments/:id', async (req, res) => {
-    console.log("INSIDE VOTES");
+    console.log("! INSIDE VOTES");
     const id = randomBytes(4).toString('hex');
     const { vote } = req.body;
     if (vote === undefined) {
