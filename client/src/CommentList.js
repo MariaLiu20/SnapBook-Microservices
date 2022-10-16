@@ -28,9 +28,6 @@ const CommentList = ({ comments, postId }) => {
       });
     };
 
-
-    
-
     return <div>
       <li key={comment.id}>{comment.content}</li>
       Status: {comment.status}
