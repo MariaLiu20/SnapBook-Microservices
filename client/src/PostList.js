@@ -10,8 +10,8 @@ const PostList = () => {
   const [posts, setPosts] = useState({});
 
   const fetchPosts = async () => {
+    // Get posts from query service
     const res = await axios.get('http://localhost:4002/posts');
-    // TODO: error checking
     setPosts(res.data);
   };
 
@@ -30,7 +30,8 @@ const PostList = () => {
       >
         <div className="card-body">
           <h3>{p.title}</h3>
-          <CommentList comments={p.comments} />
+          <CommentList comments={p.comments}
+                        postId={p.id}></CommentList>
           <CommentCreate postId={p.id} />
         </div>
       </div>

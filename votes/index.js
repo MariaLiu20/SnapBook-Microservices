@@ -18,21 +18,26 @@ app.use(express.json());
 app.use(cors());
 
 // Store comment votes
-const votesByCommentId = {};
+const numVotesByCommentId = {};
 
 // Adding a vote to comment of given ID from post of given ID
-app.post('/posts/:pid/comments/:id/votes', async (req, res) => {
+app.post('/votes', async (req, res) => {
+    console.log("INSIDE VOTES");
     const id = randomBytes(4).toString('hex');
-    const { vote } = req.body;
+    const { vote, postId, commentId } = req.body;
     if (vote === undefined) {
         res.status(400).json({
             message: "Missing vote"
         });
         return;
     }
-    const votes = votesByCommentId[req.params.id] || [];
-    votes.push({ id, vote }); 
-    votesByCommentId[req.params.id] = votes;
+
+    const voteValue = vote === "upvote" ? 1 : -1;
+    if (numVotesByCommentId[commentId] === undefined){
+        numVotesByCommentId[commentId] = voteValue;
+    } else{
+        numVotesByCommentId[commentId] += voteValue;
+    }
 
     await axios.post('http://localhost:4005/events', {
         // TODO: create object in separate .js file
@@ -40,12 +45,14 @@ app.post('/posts/:pid/comments/:id/votes', async (req, res) => {
         data: {
             id,
             vote,
-            postId: req.params.pid,
-            commentId: req.params.id,
+            postId,
+            commentId
         },
     });
 
-    res.status(201).send(votes);
+   console.log("hi");
+    res.status(201).send({});
+    
 });
 
 app.post('/events', (req, res) => {
