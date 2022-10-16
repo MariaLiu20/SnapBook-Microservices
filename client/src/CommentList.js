@@ -9,28 +9,27 @@ const CommentList = ({ comments, postId }) => {
       console.log("UPVOTED");
       event.preventDefault();
       const vote = 'upvote';
-      /*
+      
+      await axios.post(`http://localhost:4004/votes`, {
+        vote,
+        postId,
+        commentId: comment.id
+      }); 
+    };
+    
+    
+    const onSubmitDown = async (event) => {
+      event.preventDefault();
+      const vote = 'downvote';
       await axios.post(`http://localhost:4004/votes`, {
         vote,
         postId,
         commentId: comment.id
       });
-      */
-      await axios.post(`http://localhost:4004/votes`, {
-      });
-    };
-    
-    /*
-    const onSubmitDown = async (event) => {
-      event.preventDefault();
-      const vote = 'downvote';
-      await axios.post(`http://localhost:4004/posts/${postId}/comments/${comment.id}/votes`, {
-        vote,
-      });
     };
 
-     <form onSubmit={onSubmitDown}>
-    */
+
+    
 
     return <div>
       <li key={comment.id}>{comment.content}</li>
@@ -40,7 +39,7 @@ const CommentList = ({ comments, postId }) => {
       <form onSubmit={onSubmitUp}>
         <button class="btn btn-primary">Like</button>
       </form>
-      <form>
+      <form onSubmit={onSubmitDown}>
         <button class="btn btn-primary">Dislike</button>
       </form>
     </div>
