@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 
 // prop in order to inject data into a component
@@ -6,25 +6,17 @@ const CommentList = ({ comments, postId }) => {
   const renderedComments = comments.map((comment) => {
     
     const onSubmitUp = async (event) => {
-      console.log("UPVOTED");
       event.preventDefault();
-      const vote = 'upvote';
-      
-      await axios.post(`http://localhost:4004/votes`, {
-        vote,
-        postId,
-        commentId: comment.id
+      console.log("INSIDE onSubmitUp");
+      await axios.post(`http://localhost:4004/posts/${postId}/comments/${comment.id}/votes`, {
+        vote: 'upvote'
       }); 
     };
     
-    
     const onSubmitDown = async (event) => {
       event.preventDefault();
-      const vote = 'downvote';
-      await axios.post(`http://localhost:4004/votes`, {
-        vote,
-        postId,
-        commentId: comment.id
+      await axios.post(`http://localhost:4004/posts/${postId}/comments/${comment.id}/votes`, {
+        vote: 'downvote'
       });
     };
 

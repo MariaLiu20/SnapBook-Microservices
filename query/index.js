@@ -57,13 +57,11 @@ app.post('/events', (req, res) => {
 
   if (type === 'CommentVoted') {
     const {id, vote, postId, commentId} = data;
-    console.log(vote);
     const post = posts[postId];
     if (post === undefined) {
       console.log("CommentVoted ERROR: post does not exist")
       return;
     }
-    console.log("COMMENT VOTED");
     for (const comment of post.comments) {
       if (comment.id === commentId) {
         if (vote === 'upvote')
