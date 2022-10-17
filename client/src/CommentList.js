@@ -7,7 +7,6 @@ const CommentList = ({ comments, postId }) => {
     
     const onSubmitUp = async (event) => {
       event.preventDefault();
-      console.log("INSIDE onSubmitUp");
       await axios.post(`http://localhost:4004/posts/${postId}/comments/${comment.id}/votes`, {
         vote: 'upvote'
       }); 

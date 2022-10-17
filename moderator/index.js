@@ -6,7 +6,7 @@
  */
 import express from 'express';
 import logger from 'morgan';
-//import cors from 'cors';
+import cors from 'cors';
 import axios from 'axios';
 
 const app = express();
@@ -15,7 +15,7 @@ const port = 4003;
 // Middleware
 app.use(logger('dev'));
 app.use(express.json());            // parses HTTP req body into JSON object
-//app.use(cors());
+app.use(cors());
 
 app.post('/events', async (req, res) => {
     const { type, data } = req.body;
