@@ -22,9 +22,10 @@ app.use(cors());
 const numVotesByCommentId = {};
 
 // Adding a vote to comment of given ID from post of given ID
-app.post('/votes', async (req, res) => {
+app.post('/posts/:pid/comments/:id/votes', async (req, res) => {
+    console.log("! INSIDE VOTES");
     const id = randomBytes(4).toString('hex');
-    const { vote, postId, commentId } = req.body;
+    const { vote } = req.body;
     if (vote === undefined) {
         res.status(400).json({
             message: "Missing vote"
@@ -33,10 +34,10 @@ app.post('/votes', async (req, res) => {
     }
 
     const voteValue = vote === "upvote" ? 1 : -1;
-    if (numVotesByCommentId[commentId] === undefined){
-        numVotesByCommentId[commentId] = voteValue;
+    if (numVotesByCommentId[id] === undefined) {
+        numVotesByCommentId[id] = voteValue;
     } else{
-        numVotesByCommentId[commentId] += voteValue;
+        numVotesByCommentId[id] += voteValue;
     }
 
     await axios.post('http://localhost:4005/events', {
@@ -44,8 +45,8 @@ app.post('/votes', async (req, res) => {
         data: {
             id,
             vote,
-            postId,
-            commentId
+            postId: req.params.pid,
+            commentId: req.params.id
         },
     });
     
