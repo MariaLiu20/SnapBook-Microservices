@@ -8,6 +8,7 @@ import logger from 'morgan';
 import { randomBytes } from 'crypto';
 import axios from 'axios';
 import cors from 'cors';
+import { TYPES } from '../types.js'
 
 const app = express();
 const port = 4004;
@@ -17,7 +18,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(cors());
 
-// Store comment votes
+// Store comment's vote
 const numVotesByCommentId = {};
 
 // Adding a vote to comment of given ID from post of given ID
@@ -40,8 +41,7 @@ app.post('/posts/:pid/comments/:id/votes', async (req, res) => {
     }
 
     await axios.post('http://localhost:4005/events', {
-        // TODO: create object in separate .js file
-        type: 'CommentVoted',
+        type: TYPES.CommentVoted,
         data: {
             id,
             vote,
