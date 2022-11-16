@@ -13,9 +13,10 @@ app.use(logger('dev'));
 app.use(express.json());
 
 app.post('/events', (req, res) => {
+  console.log("INSIDE EVENT BUS")
   const event = req.body;
   console.log(event);
-  
+
   axios.post('http://localhost:4000/events', event).catch((err) => {
     console.log(err.message);
   });
@@ -30,7 +31,9 @@ app.post('/events', (req, res) => {
 
   axios.post('http://localhost:4003/events', event).catch((err) => {
     console.log(err.message);
-  }); 
+  });
+
+  
   axios.post('http://localhost:4004/events', event).catch((err) => {
     console.log(err.message);
   });

@@ -8,7 +8,6 @@ import logger from 'morgan';
 import { randomBytes } from 'crypto';
 import axios from 'axios';
 import cors from 'cors';
-import { TYPES } from '../types.js'
 
 const app = express();
 const port = 4004;
@@ -18,11 +17,12 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(cors());
 
-// Store comment's vote
+// Store comment votes
 const numVotesByCommentId = {};
 
 // Adding a vote to comment of given ID from post of given ID
 app.post('/votes', async (req, res) => {
+    console.log("INSIDE VOTES");
     const id = randomBytes(4).toString('hex');
     const { vote, postId, commentId } = req.body;
     if (vote === undefined) {
@@ -40,7 +40,8 @@ app.post('/votes', async (req, res) => {
     }
 
     await axios.post('http://localhost:4005/events', {
-        type: TYPES.CommentVoted,
+        // TODO: create object in separate .js file
+        type: 'CommentVoted',
         data: {
             id,
             vote,
@@ -48,8 +49,10 @@ app.post('/votes', async (req, res) => {
             commentId
         },
     });
-    
+
+   console.log("hi");
     res.status(201).send({});
+    
 });
 
 app.post('/events', (req, res) => {
