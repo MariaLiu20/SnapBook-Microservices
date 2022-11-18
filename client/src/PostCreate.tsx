@@ -7,7 +7,7 @@ const PostCreate = () => {
   const [title, setTitle] = useState('');               // "hook"
   
   // To make a post request to an endpoint passing the form data to that endpoint.
-  const onSubmit = async (event) => {                   // async fn = http request
+  const onSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {                   // async fn = http request
     event.preventDefault();                             // default: form submissions reload the page
 
     await axios.post('http://localhost:4000/posts', {

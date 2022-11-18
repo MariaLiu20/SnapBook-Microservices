@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-// prop ({postId}) - data coming from parent component, which will create CommentCreate compoenent
-const CommentCreate = ({ postId }) => {
+// Prop ({postId}) - data coming from parent component, which will create CommentCreate component
+type Props = {
+  postId: number
+}
+
+const CommentCreate = ({ postId }: Props) => {
   const [content, setContent] = useState('');
 
-  const onSubmit = async (event) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
     await axios.post(`http://localhost:4001/posts/${postId}/comments`, {
@@ -17,7 +21,7 @@ const CommentCreate = ({ postId }) => {
 
   return (
     <div>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
           <input
             value={content}
