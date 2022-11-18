@@ -39,8 +39,9 @@ app.post('/posts', async (req, res) => {
     title,
   };
 
+  console.log("before axios call in /posts");
   // Send post req to event bus to '/events' endpoint with type and data {}
-  await axios.post('http://localhost:4005/events', {
+  await axios.post('http://eventbus:4005/events', {
     // TODO: make 'PostCreated' an object instead of a string
     // put in another .js file
     // define smth in there that represents a postcreated type and import it

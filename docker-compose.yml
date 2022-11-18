@@ -1,0 +1,49 @@
+version: '3.9'
+services:
+  client:
+    build: client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/usr/app
+      - /usr/app/node_modules
+  comments:
+    build: comments
+    ports:
+      - "4001:4001"
+    volumes:
+      - ./comments:/usr/app
+      - /usr/app/node_modules
+  eventbus:
+    build: event-bus
+    volumes:
+      - ./event-bus:/usr/app
+      - /usr/app/node_modules  
+  moderator:
+    build: moderator
+    ports:
+      - "4003:4003"
+    volumes:
+      - ./moderator:/usr/app
+      - /usr/app/node_modules  
+  posts:
+    build: posts
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./posts:/usr/app
+      - /usr/app/node_modules      
+  query:
+    build: query
+    ports:
+      - "4002:4002"
+    volumes:
+      - ./query:/usr/app
+      - /usr/app/node_modules      
+  votes:
+    build: votes
+    ports:
+      - "4004:4004"
+    volumes:
+      - ./votes:/usr/app
+      - /usr/app/node_modules
