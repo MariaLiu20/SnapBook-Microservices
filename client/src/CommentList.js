@@ -20,15 +20,20 @@ const CommentList = ({ comments, postId }) => {
     };
 
     return <div>
-      <li key={comment.id}>{comment.content}</li>
-      <div>Status: {comment.status}</div>
-      <div>Vote Count: {comment.votes}</div>
-      <form onSubmit={onSubmitUp} style={{float: "left", padding: "5px"}}>
-        <button class="btn btn-primary">Like</button>
-      </form>
-      <form onSubmit={onSubmitDown} style={{float: "left", padding: "5px"}}>
-        <button class="btn btn-primary">Dislike</button>
-      </form>
+      <li key={comment.id}>{comment.content}
+        <div>Status: {comment.status}</div>
+        <div>Vote Count: {comment.votes}</div>
+        <div>
+          <form onSubmit={onSubmitUp} style={{float: "left", padding: "5px"}}>
+            <button className="btn btn-primary">Like</button>
+          </form>
+          <form onSubmit={onSubmitDown} style={{float: "left", padding: "5px"}}>
+            <button className="btn btn-primary">Dislike</button>
+          </form>
+        </div>
+        <br />
+        <br />
+      </li>
     </div>
   });
 

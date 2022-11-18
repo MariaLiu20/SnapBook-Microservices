@@ -38,7 +38,7 @@ app.post('/posts/:pid/comments/:id/votes', async (req, res) => {
         numVotesByCommentId[id] += voteValue;
     }
 
-    await axios.post('http://localhost:4005/events', {
+    await axios.post('http://eventbus:4005/events', {
         // TODO: create object in separate .js file
         type: 'CommentVoted',
         data: {
@@ -48,10 +48,8 @@ app.post('/posts/:pid/comments/:id/votes', async (req, res) => {
             commentId: req.params.id
         },
     });
-
-   console.log("hi");
-    res.status(201).send({});
     
+    res.status(201).send({});
 });
 
 app.post('/events', (req, res) => {
