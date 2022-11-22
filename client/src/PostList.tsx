@@ -4,10 +4,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import CommentCreate from './CommentCreate';
-import CommentList from './CommentList';
+import CommentList, {Comment} from './CommentList';
+
+type Post = {
+  id: number,
+  title: string,
+  comments: Array<Comment>;
+}
 
 const PostList = () => {
-  const [posts, setPosts] = useState({});
+  const [posts, setPosts] = useState(Array<Post>);
 
   const fetchPosts = async () => {
     // Get posts from query service

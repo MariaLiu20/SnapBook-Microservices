@@ -36,7 +36,7 @@ app.post('/events', (req, res) => {
     console.log(err.message);
   });
 
-  res.send({ status: 'OK' });
+  res.status(200).send({ status: 'OK' });
 });
 
 app.listen(port, () => {
